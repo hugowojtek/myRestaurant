@@ -13,8 +13,56 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class Waiter {
+public class Waiter implements FoodObservable, Runnable {
+
+    private Kitchen kitchen;
+    private boolean isWorking = false;
+    private boolean thereIsFoodToBeServed = false;
+
+    public Waiter(Kitchen kitchen) {
+        this.kitchen = kitchen;
+        // register in the kitchen
+    }
+
+    @Override
+    public void run() {
+        isWorking = true;
+        while (isWorking) {
+            if (customerIsWaiting()) {
+                handleCustomer();
+            }
+            if (thereIsFoodToBeServed) {
+                Optional<Food> food = kitchen.takeFood();
+                if (food.isPresent()) {
+                    serveFood(food);
+                }
+                thereIsFoodToBeServed = false;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // nothing to do
+            }
+        }
+    }
+
+    private boolean customerIsWaiting() {
+        // checks if customer typed anything.
+        // synchronizing on kitchen object to prevent from multiple waiters to ask customer about selection
+        synchronized (kitchen) {
+            try {
+                int amountOfChars = System.in.available();
+                byte[] readChars = new byte[amountOfChars];
+                System.in.read(readChars);
+                return amountOfChars > 0;
+            } catch (IOException e) {
+                System.out.println("Unable to check client availability: " + e.getMessage());
+            }
+            return false;
+        }
+    }
 
     public void handleCustomer() {
         int userSelection = 0;
