@@ -1,21 +1,14 @@
 package pl.sdacademy.italianrestaurant.staff;
 
-import com.sun.deploy.util.OrderedHashSet;
-import pl.sdacademy.italianrestaurant.food.Dough;
 import pl.sdacademy.italianrestaurant.food.Food;
-import pl.sdacademy.italianrestaurant.food.Pizza;
-import pl.sdacademy.italianrestaurant.food.Size;
 import pl.sdacademy.italianrestaurant.supply.Order;
 import pl.sdacademy.italianrestaurant.supply.OrderElement;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-public class Waiter implements FoodObservable, Runnable {
+public class Waiter implements FoodObserver, Runnable {
 
     private Kitchen kitchen;
     private boolean isWorking = false;
@@ -46,6 +39,10 @@ public class Waiter implements FoodObservable, Runnable {
                 // nothing to do
             }
         }
+    }
+
+    private void serveFood(Optional<Food> food) {
+        System.out.println("Here is your food: " + food.get());
     }
 
     private boolean customerIsWaiting() {
@@ -92,8 +89,6 @@ public class Waiter implements FoodObservable, Runnable {
         System.out.println("2. New York with mozzarella, prosciutto cotto, mushrooms and tomato sauce");
         System.out.println("3. Sicilian with mozzarella, salami milano, olives and tomato sauce");
         int userSelection = getUserSelection();
-        Chef chef = new Chef();
-        List<Food> dishes;
         switch (userSelection) {
             case 1:
                 System.out.println("Neapolitan! So traditional, so delicious! I'll bring it soon.");
@@ -103,10 +98,6 @@ public class Waiter implements FoodObservable, Runnable {
                 firstPizza.addSpecifics("topping", "mozzarella");
                 firstPizza.addSpecifics("topping", "grana padano");
                 order.addElement(firstPizza);
-                dishes = chef.prepareOrderedFood(order);
-                for (Food dish : dishes) {
-                    System.out.println("Here is your " + dish);
-                }
                 break;
             case 2:
                 System.out.println("Meh, another yankee pizza. Fine.");
@@ -117,10 +108,6 @@ public class Waiter implements FoodObservable, Runnable {
                 secondPizza.addSpecifics("topping", "prosciutto cotto");
                 secondPizza.addSpecifics("topping", "mushrooms");
                 order.addElement(secondPizza);
-                dishes = chef.prepareOrderedFood(order);
-                for (Food dish : dishes) {
-                    System.out.println("Here is your " + dish);
-                }
                 break;
             case 3:
                 System.out.println("Nonna used to cut it into squares. I'll bring it soon.");
@@ -131,14 +118,11 @@ public class Waiter implements FoodObservable, Runnable {
                 thirdPizza.addSpecifics("topping", "salami milano");
                 thirdPizza.addSpecifics("topping", "olives");
                 order.addElement(thirdPizza);
-                dishes = chef.prepareOrderedFood(order);
-                for (Food dish : dishes) {
-                    System.out.println("Here is your " + dish);
-                }
                 break;
             default:
                 System.out.println("Mamma mia! That's not even a pizza! Vaffanculo!");
         }
+        kitchen.addOrder(order);
     }
 
     private void payTheBill() {
