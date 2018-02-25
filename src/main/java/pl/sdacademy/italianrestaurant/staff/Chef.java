@@ -10,15 +10,39 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Chef implements OrderObserver {
+public class Chef implements OrderObserver, Runnable {
 
     private FoodFactory foodFactory;
     private Kitchen kitchen;
+    private boolean thereIsNewOrder = false;
+    private boolean isWorking = false;
 
     public Chef(Kitchen kitchen) {
         this.kitchen = kitchen;
         kitchen.register(this);
         foodFactory = new FoodFactory();
+    }
+
+    @Override
+    public void run() {
+        isWorking = true;
+        while (isWorking) {
+            if (thereIsNewOrder) {
+                Optional<Order> order = kitchen.takeOrder();
+                thereIsNewOrder = false;
+                if (order.isPresent()) {
+                    List<Food> foods = prepareOrderedFood(order.get());
+                    for (Food food : foods) {
+                        kitchen.addFood(food);
+                    }
+                }
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // nothing to do
+            }
+        }
     }
 
     public List<Food> prepareOrderedFood(Order order) {
@@ -38,12 +62,6 @@ public class Chef implements OrderObserver {
 
     @Override
     public void update() {
-        Optional<Order> order = kitchen.takeOrder();
-        if (order.isPresent()) {
-            List<Food> foods = prepareOrderedFood(order.get());
-            for (Food food : foods) {
-                kitchen.addFood(food);
-            }
-        }
+        thereIsNewOrder = true;
     }
 }
