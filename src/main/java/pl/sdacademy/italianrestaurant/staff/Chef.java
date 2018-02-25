@@ -18,13 +18,21 @@ public class Chef {
             String dough = element.getSpecifics().get("dough").iterator().next();
             String sauce = element.getSpecifics().get("sauce").iterator().next();
             Set<String> toppings = element.getSpecifics().get("topping");
-            Pizza pizza = new Pizza();
-            pizza.setDough(Dough.valueOf(dough.toUpperCase()));
-            pizza.setSize(Size.MEDIUM);
-            pizza.setSauce(sauce);
-            for (String topping : toppings) {
-                pizza.addToppings(topping);
-            }
+            Pizza.Builder pizzaBuilder = Pizza.builder(Dough.valueOf(dough.toUpperCase()));
+            pizzaBuilder.sauce(sauce);
+            // 1 sposob
+//            for (String topping : toppings) {
+//                pizzaBuilder.topping(topping);
+//            }
+            // 2 krok
+//            toppings.forEach(topping -> {
+//                pizzaBuilder.topping(topping);
+//            });
+            // 3 krok
+//            toppings.forEach(topping -> pizzaBuilder.topping(topping));
+            // 4 krok
+            toppings.forEach(pizzaBuilder::topping);
+            Pizza pizza = pizzaBuilder.build();
             preparedFood.add(pizza);
         }
         return preparedFood;
