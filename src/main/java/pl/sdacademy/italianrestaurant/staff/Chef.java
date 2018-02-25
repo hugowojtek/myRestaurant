@@ -7,6 +7,7 @@ import pl.sdacademy.italianrestaurant.supply.OrderElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Chef {
 
@@ -23,5 +24,11 @@ public class Chef {
             preparedFood.add(foodFactory.prepareFood(element));
         }
         return preparedFood;
+    }
+
+    public List<Food> prepareOrderedFoodOneLiner(Order order) {
+        return order.getElements().stream()
+                .map(foodFactory::prepareFood)
+                .collect(Collectors.toList());
     }
 }
