@@ -25,49 +25,44 @@ public class Pasta implements Food {
         return parmesan;
     }
 
-    private Pasta(PastaBuilder pastaBuilder) {
+    private Pasta(Builder pastaBuilder) {
         pastaType = pastaBuilder.pastaType;
         sauce = pastaBuilder.sauce;
         spices = pastaBuilder.spices;
         parmesan = pastaBuilder.parmesan;
     }
 
-    public static PastaBuilder builder(PastaType type) {
-        return new PastaBuilder(type);
+    public static Builder builder(PastaType type) {
+        return new Builder(type);
     }
 
-    public static class PastaBuilder {
+    public static class Builder {
         private PastaType pastaType;
         private String sauce;
         private Set<String> spices;
         private boolean parmesan;
 
-        private PastaBuilder(PastaType type) {
+        private Builder(PastaType type) {
             pastaType = type;
             spices = new HashSet<>();
         }
 
-        public PastaBuilder pastaType(PastaType pastaType) {
-            this.pastaType = pastaType;
-            return this;
-        }
-
-        public PastaBuilder sauce(String sauce) {
+        public Builder sauce(String sauce) {
             this.sauce = sauce;
             return this;
         }
 
-        public PastaBuilder spices(String spice) {
+        public Builder spices(String spice) {
             spices.add(spice);
             return this;
         }
 
-        public PastaBuilder spices(Set<String> spices) {
+        public Builder spices(Set<String> spices) {
             this.spices.addAll(spices);
             return this;
         }
 
-        public PastaBuilder parmesan(boolean parmesan) {
+        public Builder parmesan(boolean parmesan) {
             this.parmesan = parmesan;
             return this;
         }
