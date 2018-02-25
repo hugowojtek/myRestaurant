@@ -1,50 +1,35 @@
 package pl.sdacademy.italianrestaurant.food;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Pizza implements Food, Bakeable {
 
-    private Dough dough;
-    private Size size;
-    private String sauce;
-    private Set<String> toppings;
+    private final Dough dough;
+    private final Size size;
+    private final String sauce;
+    private final Set<String> toppings;
 
-    public Pizza() {
-        toppings = new HashSet<>();
+    private Pizza(Builder builder) {
+        this.dough = builder.dough;
+        this.size = builder.size;
+        this.sauce = builder.sauce;
+        this.toppings = builder.toppings;
     }
 
     public Dough getDough() {
         return dough;
     }
 
-    public void setDough(Dough dough) {
-        this.dough = dough;
-    }
-
     public Size getSize() {
         return size;
-    }
-
-    public void setSize(Size size) {
-        this.size = size;
     }
 
     public String getSauce() {
         return sauce;
     }
 
-    public void setSauce(String sauce) {
-        this.sauce = sauce;
-    }
-
     public Set<String> getToppings() {
-        return toppings;
-    }
-
-    public void addToppings(String topping) {
-        toppings.add("toppings");
+        return new HashSet<>(toppings);
     }
 
     public void bake(long timeInMillis) {
@@ -64,4 +49,52 @@ public class Pizza implements Food, Bakeable {
                 ", toppings=" + toppings +
                 '}';
     }
+
+    public static Builder builder(Dough dough) {
+        return new Builder(dough);
+    }
+
+    public static class Builder {
+        private Dough dough;
+        private Size size;
+        private String sauce;
+        private Set<String> toppings;
+
+        private Builder(Dough dough) {
+            this.dough = dough;
+            size = Size.MEDIUM;
+            this.toppings = new HashSet<>();
+        }
+
+        public Builder size(Size size) {
+            this.size = size;
+            return this;
+        }
+
+        public Builder sauce(String sauce) {
+            this.sauce = sauce;
+            return this;
+        }
+
+        public Builder topping(String... topping) {
+            this.toppings.addAll(Arrays.asList(topping));
+            return this;
+        }
+
+        public Pizza build() {
+            return new Pizza(this);
+        }
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
