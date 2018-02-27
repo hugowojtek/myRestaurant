@@ -41,5 +41,10 @@ public class Kitchen {
     }
 
     public Optional<Food> takeFood() {
+        return null;
+    }
+
+    public void addFood(Food food) {
+
     }
 }
