@@ -17,10 +17,12 @@ public class Waiter implements FoodObserver, Runnable {
     public Waiter(Kitchen kitchen) {
         this.kitchen = kitchen;
         // register in the kitchen
+        this.kitchen.registerFO(this);
     }
 
     @Override
     public void run() {
+        System.out.println("waiter " + Thread.currentThread().getName());
         isWorking = true;
         while (isWorking) {
             if (customerIsWaiting()) {
@@ -150,5 +152,6 @@ public class Waiter implements FoodObserver, Runnable {
     @Override
     public void update() {
         this.thereIsFoodToBeServed = true;
+
     }
 }

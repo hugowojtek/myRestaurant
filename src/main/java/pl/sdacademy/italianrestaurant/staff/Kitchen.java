@@ -35,18 +35,16 @@ public class Kitchen {
             orderObserver.update();
         }
     }
-    
-    
+      public Optional<Order> takeOrder() {
 
-    public Optional<Order> takeOrder() {
-
-        for (FoodObserver foodObserver : foodObservers){
-            foodObserver.update();
-        }
         return Optional.ofNullable(orders.poll());
     }
 
     public Optional<Food> takeFood() {
+
+        for (FoodObserver foodObserver : foodObservers){
+            foodObserver.update();
+        }
 
         return Optional.ofNullable(foods.poll());
     }

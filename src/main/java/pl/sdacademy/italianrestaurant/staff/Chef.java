@@ -25,7 +25,9 @@ public class Chef implements OrderObserver, Runnable {
 
     @Override
     public void run() {
-        isWorking = true;
+
+        System.out.println("chef " + Thread.currentThread().getName());
+                isWorking = true;
         while (isWorking) {
             if (thereIsNewOrder) {
                 Optional<Order> order = kitchen.takeOrder();
@@ -62,7 +64,9 @@ public class Chef implements OrderObserver, Runnable {
     }
 
     @Override
+
     public void update() {
         thereIsNewOrder = true;
+
     }
 }
