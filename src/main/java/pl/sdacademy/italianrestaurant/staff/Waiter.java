@@ -149,6 +149,6 @@ public class Waiter implements FoodObserver, Runnable {
 
     @Override
     public void update() {
-
+        this.thereIsFoodToBeServed = true;
     }
 }

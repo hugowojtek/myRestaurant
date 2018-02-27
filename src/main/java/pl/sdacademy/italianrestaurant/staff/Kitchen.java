@@ -10,11 +10,13 @@ public class Kitchen {
     private List<OrderObserver> orderObservers;
     private List<FoodObserver> foodObservers;
     private Queue<Order> orders;
+    private Queue<Food> foods;
 
     public Kitchen() {
         orderObservers = new ArrayList<>();
-        this.foodObservers = new ArrayList<>();
         orders = new LinkedBlockingDeque<>();
+        this.foodObservers = new ArrayList<>();
+        this.foods = new LinkedBlockingDeque<>();
     }
 
     public void register(OrderObserver observer) {
@@ -37,14 +39,21 @@ public class Kitchen {
     
 
     public Optional<Order> takeOrder() {
+
+        for (FoodObserver foodObserver : foodObservers){
+            foodObserver.update();
+        }
         return Optional.ofNullable(orders.poll());
     }
 
     public Optional<Food> takeFood() {
-        return null;
+
+        return Optional.ofNullable(foods.poll());
     }
 
     public void addFood(Food food) {
+
+        this.foods.add(food);
 
     }
 }

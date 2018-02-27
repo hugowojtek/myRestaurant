@@ -36,6 +36,7 @@ public class Chef implements OrderObserver, Runnable {
                         kitchen.addFood(food);
                     }
                 }
+
             }
             try {
                 Thread.sleep(100);
