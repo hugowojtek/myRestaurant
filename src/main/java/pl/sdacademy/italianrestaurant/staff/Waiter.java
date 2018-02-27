@@ -146,4 +146,9 @@ public class Waiter implements FoodObserver, Runnable {
             System.out.println();
         }
     }
+
+    @Override
+    public void update() {
+
+    }
 }
