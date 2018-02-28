@@ -42,16 +42,16 @@ public class Kitchen {
 
     public Optional<Food> takeFood() {
 
-        for (FoodObserver foodObserver : foodObservers){
-            foodObserver.update();
-        }
-
         return Optional.ofNullable(foods.poll());
     }
 
     public void addFood(Food food) {
 
         this.foods.add(food);
+
+        for (FoodObserver foodObserver : foodObservers){
+            foodObserver.update();
+        }
 
     }
 }

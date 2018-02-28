@@ -26,7 +26,7 @@ public class Chef implements OrderObserver, Runnable {
     @Override
     public void run() {
 
-        System.out.println("chef " + Thread.currentThread().getName());
+        //System.out.println("chef " + Thread.currentThread().getName());
                 isWorking = true;
         while (isWorking) {
             if (thereIsNewOrder) {

@@ -22,7 +22,7 @@ public class Waiter implements FoodObserver, Runnable {
 
     @Override
     public void run() {
-        System.out.println("waiter " + Thread.currentThread().getName());
+        //System.out.println("waiter " + Thread.currentThread().getName());
         isWorking = true;
         while (isWorking) {
             if (customerIsWaiting()) {
@@ -144,7 +144,7 @@ public class Waiter implements FoodObserver, Runnable {
     }
 
     private void scrollTheScreen() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             System.out.println();
         }
     }
