@@ -24,7 +24,7 @@ public class OrderElement {
             }
         }
         this.specifics.put(type,collectionOfSpecificsForType);
-
+//
 
         //specifics.merge(type, collectionOfSpecificsForType, (oldSpecifics, newSpecifics) -> {oldSpecifics.addAll(newSpecifics); return oldSpecifics;});
     }
